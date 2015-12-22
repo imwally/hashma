@@ -10,7 +10,6 @@ import (
 	"os"
 )
 
-
 func main() {
 
 	if len(os.Args) < 3 {
@@ -20,7 +19,7 @@ func main() {
 
 	file := os.Args[1]
 	hashFile := os.Args[2]
-	
+
 	fb, err := ioutil.ReadFile(file)
 	if err != nil {
 		fmt.Println(err)
@@ -34,9 +33,14 @@ func main() {
 	}
 
 	md5 := md5.Sum(fb)
-
 	sha1 := sha1.Sum(fb)
 	sha256 := sha256.Sum256(fb)
 	sha512 := sha512.Sum512(fb)
 
+	fmt.Println(string(hb))
+
+	fmt.Printf("%x\n", md5)
+	fmt.Printf("%x\n", sha1)
+	fmt.Printf("%x\n", sha256)
+	fmt.Printf("%x\n", sha512)
 }
