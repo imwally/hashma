@@ -12,8 +12,8 @@ import (
 	"strings"
 )
 
-func findHash(hash, digest string) bool {
-	return strings.Contains(digest, hash)
+func findHash(sums, hash string) bool {
+	return strings.Contains(sums, hash)
 }
 
 func Hashes(file []byte) map[string]string {
@@ -42,24 +42,24 @@ func main() {
 	}
 
 	file := os.Args[1]
-	digest := os.Args[2]
+	sums := os.Args[2]
 
-	fb, err := ioutil.ReadFile(file)
+	fileBytes, err := ioutil.ReadFile(file)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	db, err := ioutil.ReadFile(digest)
+	sumsBytes, err := ioutil.ReadFile(sums)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	hashes := Hashes(fb)
+	hashes := Hashes(fileBytes)
 
 	for algo, hash := range hashes {
-		if findHash(hash, string(db)) {
+		if findHash(string(sumsBytes), hash) {
 			fmt.Printf("Found %s: %s\n", algo, hash)
 		}
 	}
