@@ -12,8 +12,12 @@ which should match the same checksum found in the list.
 hashma expects two arguments, a file to verify and a file that
 contains a list of checksums. It will check the MD5, SHA1, SHA256, and
 SHA512 hash of the file. If the hash is found in the list of checksums
-it will return what algorithm and the hash of the file, otherwise
+it will return the algorithm and the hash of the file, otherwise
 nothing.
+
+Please note that this utility does not verify the file containing the
+checksums. It is your duty to check the authenticity of the file
+containing the checksum.
 
 
 ```
