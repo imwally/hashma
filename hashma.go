@@ -12,6 +12,13 @@ import (
 	"strings"
 )
 
+var algorithms = []string{
+	"md5",
+	"sha1",
+	"sha256",
+	"sha512",
+}
+
 var hashes = make(map[string]string)
 
 func findHash(sums, hash string) bool {
@@ -19,7 +26,6 @@ func findHash(sums, hash string) bool {
 }
 
 func hasher(file []byte, algo string) string {
-
 	switch algo {
 	case "md5":
 		md5 := md5.Sum(file)
@@ -40,7 +46,6 @@ func hasher(file []byte, algo string) string {
 }
 
 func main() {
-
 	if len(os.Args) < 3 {
 		fmt.Fprintf(os.Stderr, "hashma: expected two arguments\n")
 		return
@@ -61,10 +66,11 @@ func main() {
 		return
 	}
 
-	go func() { hashes["md5"] = hasher(fileBytes, "md5") }()
-	go func() { hashes["sha1"] = hasher(fileBytes, "sha1") }()
-	go func() { hashes["sha256"] = hasher(fileBytes, "sha256") }()
-	go func() { hashes["sha512"] = hasher(fileBytes, "sha512") }()
+	for _, algo := range algorithms {
+		go func(algo string) {
+			hashes[algo] = hasher(fileBytes, algo)
+		}(algo)
+	}
 
 	var found bool
 	for {
