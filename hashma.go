@@ -42,7 +42,6 @@ func hasher(file []byte, algo string) string {
 	default:
 		return ""
 	}
-
 }
 
 func main() {
