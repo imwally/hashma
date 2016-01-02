@@ -55,13 +55,13 @@ func main() {
 
 	fileBytes, err := ioutil.ReadFile(file)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("hashma:", err)
 		return
 	}
 
 	sumsBytes, err := ioutil.ReadFile(sums)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("hashma:", err)
 		return
 	}
 
@@ -71,17 +71,12 @@ func main() {
 		}(algo)
 	}
 
-	var found bool
 	for {
 		for algo, hash := range hashes {
 			if findHash(string(sumsBytes), hash) {
 				fmt.Printf("%s: %s\n", algo, hash)
-				found = true
+				return
 			}
 		}
-		if found {
-			break
-		}
-
 	}
 }
