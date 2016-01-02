@@ -12,14 +12,17 @@ import (
 	"strings"
 )
 
-var algorithms = []string{
-	"md5",
-	"sha1",
-	"sha256",
-	"sha512",
-}
+var (
+	algorithms = []string{
+		"md5",
+		"sha1",
+		"sha256",
+		"sha512",
+	}
 
-var hashes = make(map[string]string)
+	hashchan = make(chan map[string]string)
+	hashes   = make(map[string]string)
+)
 
 func findHash(sums, hash string) bool {
 	return strings.Contains(sums, hash)
@@ -68,13 +71,15 @@ func main() {
 	for _, algo := range algorithms {
 		go func(algo string) {
 			hashes[algo] = hasher(fileBytes, algo)
+			hashchan <- hashes
 		}(algo)
 	}
 
 	for {
-		for algo, hash := range hashes {
+		for algo, hash := range <-hashchan {
 			if findHash(string(sumsBytes), hash) {
 				fmt.Printf("%s: %s\n", algo, hash)
+				close(hashchan)
 				return
 			}
 		}
