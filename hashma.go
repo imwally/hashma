@@ -12,18 +12,6 @@ import (
 	"strings"
 )
 
-var (
-	algorithms = []string{
-		"md5",
-		"sha1",
-		"sha256",
-		"sha512",
-	}
-
-	hashchan = make(chan map[string]string)
-	hashes   = make(map[string]string)
-)
-
 func findHash(sums, hash string) bool {
 	return strings.Contains(sums, hash)
 }
@@ -53,6 +41,16 @@ func main() {
 		return
 	}
 
+	algorithms := []string{
+		"md5",
+		"sha1",
+		"sha256",
+		"sha512",
+	}
+
+	hashchan := make(chan map[string]string)
+	hashes   := make(map[string]string)
+	
 	file := os.Args[1]
 	sums := os.Args[2]
 
