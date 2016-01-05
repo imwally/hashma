@@ -53,14 +53,14 @@ func main() {
 	
 	file := os.Args[1]
 	sums := os.Args[2]
-
-	fileBytes, err := ioutil.ReadFile(file)
+	
+	sumsBytes, err := ioutil.ReadFile(sums)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "hashma: %s\n", err)
 		return
 	}
-
-	sumsBytes, err := ioutil.ReadFile(sums)
+	
+	fileBytes, err := ioutil.ReadFile(file)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "hashma: %s\n", err)
 		return
