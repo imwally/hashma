@@ -56,13 +56,13 @@ func main() {
 
 	fileBytes, err := ioutil.ReadFile(file)
 	if err != nil {
-		fmt.Println("hashma:", err)
+		fmt.Fprintf(os.Stderr, "hashma: %s\n", err)
 		return
 	}
 
 	sumsBytes, err := ioutil.ReadFile(sums)
 	if err != nil {
-		fmt.Println("hashma:", err)
+		fmt.Fprintf(os.Stderr, "hashma: %s\n", err)
 		return
 	}
 
