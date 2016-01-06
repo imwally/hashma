@@ -49,17 +49,17 @@ func main() {
 	}
 
 	hashchan := make(chan map[string]string)
-	hashes   := make(map[string]string)
-	
+	hashes := make(map[string]string)
+
 	file := os.Args[1]
 	sums := os.Args[2]
-	
+
 	sumsBytes, err := ioutil.ReadFile(sums)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "hashma: %s\n", err)
 		return
 	}
-	
+
 	fileBytes, err := ioutil.ReadFile(file)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "hashma: %s\n", err)
