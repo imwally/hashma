@@ -77,9 +77,9 @@ func main() {
 		for algo, hash := range <-hashchan {
 			if findHash(string(sumsBytes), hash) {
 				fmt.Printf("%s: %s\n", algo, hash)
-				close(hashchan)
 				return
 			}
 		}
+
 	}
 }
