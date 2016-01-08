@@ -36,7 +36,7 @@ func hasher(file []byte, algo string) string {
 }
 
 func main() {
-	if len(os.Args) < 3 {
+	if len(os.Args) != 3 {
 		fmt.Fprintf(os.Stderr, "hashma: expected two arguments\n")
 		return
 	}
