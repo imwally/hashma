@@ -10,6 +10,8 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"sync"
+	"path"
 )
 
 func findHash(sums, hash string) bool {
@@ -48,9 +50,6 @@ func main() {
 		"sha512",
 	}
 
-	hashchan := make(chan map[string]string)
-	hashes := make(map[string]string)
-
 	file := os.Args[1]
 	sums := os.Args[2]
 
@@ -65,20 +64,26 @@ func main() {
 		fmt.Fprintf(os.Stderr, "hashma: %s\n", err)
 		return
 	}
-
+	
+	hashchan := make(chan string)
+	var wg sync.WaitGroup
 	for _, algo := range algorithms {
+		wg.Add(1)
 		go func(algo string) {
-			hashes[algo] = hasher(fileBytes, algo)
-			hashchan <- hashes
+			defer wg.Done()
+			hashchan <- hasher(fileBytes, algo)
 		}(algo)
 	}
 
-	for {
-		for algo, hash := range <-hashchan {
-			if findHash(string(sumsBytes), hash) {
-				fmt.Printf("%s: %s\n", algo, hash)
-				return
-			}
+	go func() {
+		wg.Wait()
+		close(hashchan)
+	}()
+	
+	for hash := range hashchan {
+		if findHash(string(sumsBytes), hash) {
+			fmt.Printf("%s  %s\n", hash, path.Base(file))
+			return
 		}
 	}
 }
