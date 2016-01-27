@@ -3,10 +3,9 @@
 hashma is a tiny utility that helps with checking the authenticity of
 files downloaded from the internet. The usual routine when downloading
 an OS image from the internet is to also download another file that
-contains a list of the checksums, also know as hashes. Running a
-hashing algorithm against the image file will return a string of
-characters, or a checksum, which should match the one of the checksums
-found in the list.
+contains a list of checksums. Running a hashing algorithm against the
+image file will return a string of characters, or a checksum, which
+should match the one of the checksums found in the list.
 
 ## Usage
 
