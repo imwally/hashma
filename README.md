@@ -16,7 +16,7 @@ it will return the hash and file name otherwise nothing.
 
 Please note that this utility does not verify the file containing the
 checksums. It is your duty to check the authenticity of the file
-containing the checksum. Usually this is done via GPG signatures.
+containing the checksum. Usually this is done via PGP signatures.
 
 
 ```
