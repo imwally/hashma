@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"strings"
 	"sync"
-	"path"
 )
 
 func findHash(sums, hash string) bool {
@@ -39,7 +39,7 @@ func hasher(file []byte, algo string) string {
 
 func main() {
 	if len(os.Args) != 3 {
-		fmt.Fprintf(os.Stderr, "hashma: expected two arguments\n")
+		fmt.Fprintf(os.Stderr, "Usage: hashma [file to hash] [file containg hashes]\n")
 		return
 	}
 
@@ -64,7 +64,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "hashma: %s\n", err)
 		return
 	}
-	
+
 	hashchan := make(chan string)
 	var wg sync.WaitGroup
 	for _, algo := range algorithms {
@@ -79,7 +79,7 @@ func main() {
 		wg.Wait()
 		close(hashchan)
 	}()
-	
+
 	for hash := range hashchan {
 		if findHash(string(sumsBytes), hash) {
 			fmt.Printf("%s  %s\n", hash, path.Base(file))
